@@ -9,14 +9,14 @@
     <style>
         :root {
             --sage: #9caf88;
+            --olive: #708238;
             --terracotta: #cc7e5c;
             --cream: #f9f7f2;
-            /* Warna Sticky Notes */
-            --note-perpulangan: #e8f3e8; /* Soft Green */
-            --note-kiriman: #fff9e6;      /* Butter Yellow */
-            --note-kunjungan: #ffece6;    /* Peach */
-            --note-oper: #e6f2ff;         /* Sky Blue */
-            --note-pinjam: #f2e6ff;       /* Lavender */
+            --note-perpulangan: #e8f3e8;
+            --note-kiriman: #fff9e6;
+            --note-kunjungan: #ffece6;
+            --note-oper: #e6f2ff;
+            --note-pinjam: #f2e6ff;
         }
 
         body {
@@ -30,44 +30,70 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
-            padding-top: 130px;
+            padding-top: 140px;
         }
 
-        /* Dekorasi Tanaman Aesthetic */
-        .plant-left {
+        /* --- DEKORASI TANAMAN RIMBUN --- */
+        
+        /* Tanaman Merambat di Atas */
+        .vines-top {
             position: fixed;
-            bottom: -20px;
-            left: -20px;
-            width: 150px;
-            pointer-events: none;
-            z-index: 10;
-            opacity: 0.8;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background-image: url('https://www.transparenttextures.com/patterns/leaves.png'); /* Pola daun rimbun */
+            background-color: var(--sage);
+            opacity: 0.3;
+            z-index: 1;
+            mask-image: linear-gradient(to bottom, black, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, black, transparent);
         }
 
-        .plant-right {
+        /* Tanaman Pot di Bawah */
+        .garden-bottom {
             position: fixed;
-            top: -10px;
-            right: -20px;
-            width: 120px;
-            transform: rotate(180deg);
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            z-index: 2000;
             pointer-events: none;
-            z-index: 10;
-            opacity: 0.7;
+            padding: 0 10px;
         }
 
-        /* Navigasi Tab Minimalis */
+        .pot {
+            width: 60px;
+            height: 80px;
+            background: var(--olive);
+            border-radius: 10px 10px 5px 5px;
+            position: relative;
+            filter: drop-shadow(0 -5px 10px rgba(0,0,0,0.1));
+        }
+
+        .pot::after {
+            content: "🌿";
+            font-size: 50px;
+            position: absolute;
+            top: -45px;
+            left: 5px;
+        }
+
+        /* Navigasi Tab */
         .tab-nav {
             position: fixed;
-            top: 15px;
-            background: rgba(255, 255, 255, 0.6);
+            top: 20px;
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(15px);
             display: flex;
-            padding: 8px;
-            gap: 10px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            z-index: 1000;
+            padding: 10px;
+            gap: 15px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 2001;
         }
 
         .tab-item {
@@ -77,63 +103,62 @@
             border-radius: 50%;
             cursor: pointer;
             transition: 0.4s;
-            font-size: 20px;
+            font-size: 22px;
         }
 
-        .tab-item.active { background: var(--sage); color: white; }
+        .tab-item.active { background: var(--sage); color: white; transform: scale(1.1); }
 
         .tab-item .tooltip {
             visibility: hidden; opacity: 0;
             background: #4a5d4a; color: white;
             padding: 5px 12px; border-radius: 8px;
             position: absolute; bottom: -45px;
-            font-size: 10px; transition: 0.3s;
+            font-size: 11px; transition: 0.3s;
         }
         .tab-item:hover .tooltip { visibility: visible; opacity: 1; }
 
-        /* Tombol Terracotta Melayang */
+        /* Tombol Terracotta */
         .add-btn {
             position: fixed;
-            top: 85px;
+            top: 90px;
             background: var(--terracotta);
             color: white;
             border: none;
-            padding: 10px 25px;
-            border-radius: 20px 50px 20px 50px; /* Bentuk Organic */
+            padding: 12px 30px;
+            border-radius: 30px;
             font-weight: bold;
-            box-shadow: 0 8px 20px rgba(204, 126, 92, 0.3);
-            z-index: 999;
+            box-shadow: 0 5px 20px rgba(204, 126, 92, 0.4);
+            z-index: 1000;
             cursor: pointer;
             font-family: 'Quicksand';
-            transition: 0.3s;
         }
 
-        /* Sticky Note Utama */
+        /* Sticky Note Raksasa */
         .sticky-note {
-            width: 90%;
-            max-width: 450px;
-            min-height: 400px;
-            padding: 40px 30px;
-            border-radius: 5px;
-            box-shadow: 10px 10px 20px rgba(0,0,0,0.05);
+            width: 85%;
+            max-width: 500px;
+            min-height: 450px;
+            padding: 50px 30px;
+            border-radius: 2px;
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.05);
             position: relative;
-            transition: background-color 0.5s ease;
-            background-image: radial-gradient(#d1d1d1 1px, transparent 1px);
-            background-size: 20px 20px; /* Titik-titik grid */
+            transition: 0.5s;
+            z-index: 5;
+            background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 100% 30px; /* Garis Buku */
         }
 
-        /* Efek Selotip (Washi Tape) */
         .sticky-note::before {
             content: "";
             position: absolute;
-            top: -15px;
+            top: -10px;
             left: 50%;
-            transform: translateX(-50%) rotate(-2deg);
-            width: 120px;
-            height: 35px;
-            background: rgba(255, 255, 255, 0.5);
+            transform: translateX(-50%) rotate(1deg);
+            width: 140px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(2px);
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.5);
         }
 
         .page { display: none; }
@@ -143,47 +168,52 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px dashed rgba(0,0,0,0.1);
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .item-text { flex-grow: 1; margin: 0 10px; font-weight: 400; font-size: 16px; }
-
-        .del-btn { background: none; border: none; cursor: pointer; font-size: 14px; opacity: 0.3; }
+        .item-text { flex-grow: 1; margin: 0 15px; font-size: 16px; }
+        .del-btn { background: none; border: none; cursor: pointer; opacity: 0.3; }
         .del-btn:hover { opacity: 1; color: var(--terracotta); }
-
-        /* Pop-up Modal */
-        .modal {
-            display: none; position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.3); backdrop-filter: blur(5px);
-            z-index: 2000; justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background: white; padding: 30px; border-radius: 20px;
-            width: 80%; max-width: 320px;
-        }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid #eee; box-sizing: border-box; }
-
-        /* Pinjaman Grid */
-        .pinjam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .pinjam-col h4 { font-size: 12px; margin-top: 0; color: var(--olive); border-bottom: 1px solid var(--sage); }
 
         /* Watermark */
         .watermark {
-            margin-top: 40px;
-            font-size: 11px;
-            opacity: 0.5;
-            letter-spacing: 1px;
+            margin-top: 50px;
+            font-size: 12px;
+            opacity: 0.6;
+            letter-spacing: 2px;
             font-family: 'Quicksand';
-            padding-bottom: 30px;
+            padding-bottom: 120px; /* Biar ngga ketutup pot */
+            z-index: 10;
         }
+
+        /* Modal */
+        .modal {
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(5px);
+            z-index: 3000; justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: white; padding: 30px; border-radius: 30px;
+            width: 80%; max-width: 320px;
+        }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 15px; border: 1px solid #eee; }
+
+        .pinjam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     </style>
 </head>
 <body>
 
-    <svg class="plant-left" viewBox="0 0 100 100" fill="var(--sage)"><path d="M10,90 Q30,40 80,20 Q60,60 10,90" /></svg>
-    <svg class="plant-right" viewBox="0 0 100 100" fill="var(--sage)"><path d="M10,90 Q30,40 80,20 Q60,60 10,90" /></svg>
+    <div class="vines-top"></div>
+
+    <div class="garden-bottom">
+        <div class="pot"></div>
+        <div class="pot" style="transform: scale(0.8);"></div>
+        <div class="pot"></div>
+        <div class="pot" style="transform: scale(0.9);"></div>
+        <div class="pot"></div>
+    </div>
 
     <div class="tab-nav">
         <div class="tab-item active" onclick="showPage('perpulangan', this, 'var(--note-perpulangan)')">🏠<span class="tooltip">Perpulangan</span></div>
@@ -193,7 +223,7 @@
         <div class="tab-item" onclick="showPage('pinjam', this, 'var(--note-pinjam)')">🤝<span class="tooltip">Pinjaman</span></div>
     </div>
 
-    <button class="add-btn" onclick="openModal()">+ Barang Baru</button>
+    <button class="add-btn" onclick="openModal()">+ Tambah Barang</button>
 
     <div class="sticky-note" id="mainNote" style="background-color: var(--note-perpulangan);">
         <div id="perpulangan" class="page active"><h3 style="font-family:'Quicksand'">List Perpulangan</h3><div id="list-perpulangan"></div></div>
@@ -203,8 +233,8 @@
         <div id="pinjam" class="page">
             <h3 style="font-family:'Quicksand'">Amanah Pinjaman</h3>
             <div class="pinjam-grid">
-                <div class="pinjam-col"><h4>Aku Pinjam</h4><div id="list-aku-pinjam"></div></div>
-                <div class="pinjam-col"><h4>Dipinjam</h4><div id="list-dipinjam"></div></div>
+                <div class="pinjam-col"><h4 style="font-size:10px">AKU PINJAM</h4><div id="list-aku-pinjam"></div></div>
+                <div class="pinjam-col"><h4 style="font-size:10px">DIPINJAM</h4><div id="list-dipinjam"></div></div>
             </div>
         </div>
     </div>
@@ -213,8 +243,8 @@
 
     <div id="inputModal" class="modal">
         <div class="modal-content">
-            <h3 style="margin-top:0; font-family:'Quicksand'">Tambah Catatan</h3>
-            <input type="text" id="itemName" placeholder="Nama barang...">
+            <h3 style="margin-top:0; font-family:'Quicksand'">Catatan Baru</h3>
+            <input type="text" id="itemName" placeholder="Ketik nama barang...">
             <select id="targetTab">
                 <option value="perpulangan">🏠 Perpulangan</option>
                 <option value="kiriman">📦 Kiriman</option>
@@ -223,7 +253,7 @@
                 <option value="aku-pinjam">🤝 Aku Pinjam</option>
                 <option value="dipinjam">👤 Dipinjam Teman</option>
             </select>
-            <button onclick="addItem()" style="width:100%; background:var(--sage); color:white; border:none; padding:12px; border-radius:10px; cursor:pointer;">Simpan</button>
+            <button onclick="addItem()" style="width:100%; background:var(--sage); color:white; border:none; padding:12px; border-radius:15px; cursor:pointer;">Simpan</button>
             <button onclick="closeModal()" style="background:none; border:none; color:gray; width:100%; margin-top:10px; cursor:pointer;">Batal</button>
         </div>
     </div>
@@ -257,7 +287,7 @@
         setInterval(() => {
             const now = new Date();
             if (now.getDay() === 6 && now.getHours() === 9 && now.getMinutes() === 20) {
-                alert("⏰ Oemah Checklist: Cek list persiapanmu sekarang!");
+                alert("⏰ Oemah Checklist: Sudah jam 09.20 hari Sabtu! Cek persiapanmu.");
             }
         }, 60000);
     </script>
