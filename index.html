@@ -30,94 +30,94 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
-            padding-top: 140px;
+            padding-top: 150px;
+            padding-bottom: 120px;
         }
 
         /* --- DEKORASI TANAMAN RIMBUN --- */
-        
-        /* Tanaman Merambat di Atas */
-        .vines-top {
+
+        /* 1. Tanaman Gantung Merambat (Atas Full) */
+        .hanging-garden {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 120px;
-            background-image: url('https://www.transparenttextures.com/patterns/leaves.png'); /* Pola daun rimbun */
-            background-color: var(--sage);
-            opacity: 0.3;
-            z-index: 1;
-            mask-image: linear-gradient(to bottom, black, transparent);
-            -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+            height: 150px;
+            background-image: url('https://www.transparenttextures.com/patterns/green-dust.png');
+            z-index: 1001;
+            pointer-events: none;
+            display: flex;
+            justify-content: space-around;
         }
 
-        /* Tanaman Pot di Bawah */
-        .garden-bottom {
+        .hanging-plant {
+            width: 80px;
+            height: 140px;
+            background: linear-gradient(to bottom, var(--sage), transparent);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            opacity: 0.6;
+            position: relative;
+        }
+
+        .hanging-plant::after {
+            content: "🌿";
+            font-size: 60px;
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 2. Tanaman Pot Full (Bawah Full) */
+        .bottom-garden {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 100px;
+            background: rgba(156, 175, 136, 0.2);
+            backdrop-filter: blur(5px);
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             align-items: flex-end;
-            z-index: 2000;
+            z-index: 1001;
             pointer-events: none;
-            padding: 0 10px;
+            border-top: 2px dashed var(--sage);
         }
 
-        .pot {
-            width: 60px;
-            height: 80px;
-            background: var(--olive);
-            border-radius: 10px 10px 5px 5px;
-            position: relative;
-            filter: drop-shadow(0 -5px 10px rgba(0,0,0,0.1));
+        .pot-row {
+            display: flex;
+            gap: 5px;
+            font-size: 45px;
+            padding-bottom: 5px;
         }
 
-        .pot::after {
-            content: "🌿";
-            font-size: 50px;
-            position: absolute;
-            top: -45px;
-            left: 5px;
-        }
+        /* --- UI ELEMENTS --- */
 
-        /* Navigasi Tab */
         .tab-nav {
             position: fixed;
             top: 20px;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(15px);
             display: flex;
-            padding: 10px;
-            gap: 15px;
+            padding: 8px;
+            gap: 12px;
             border-radius: 50px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            z-index: 2001;
+            z-index: 2000;
         }
 
         .tab-item {
-            position: relative;
             width: 45px; height: 45px;
             display: flex; align-items: center; justify-content: center;
             border-radius: 50%;
             cursor: pointer;
-            transition: 0.4s;
+            transition: 0.3s;
             font-size: 22px;
         }
 
         .tab-item.active { background: var(--sage); color: white; transform: scale(1.1); }
 
-        .tab-item .tooltip {
-            visibility: hidden; opacity: 0;
-            background: #4a5d4a; color: white;
-            padding: 5px 12px; border-radius: 8px;
-            position: absolute; bottom: -45px;
-            font-size: 11px; transition: 0.3s;
-        }
-        .tab-item:hover .tooltip { visibility: visible; opacity: 1; }
-
-        /* Tombol Terracotta */
         .add-btn {
             position: fixed;
             top: 90px;
@@ -128,37 +128,35 @@
             border-radius: 30px;
             font-weight: bold;
             box-shadow: 0 5px 20px rgba(204, 126, 92, 0.4);
-            z-index: 1000;
+            z-index: 1500;
             cursor: pointer;
             font-family: 'Quicksand';
         }
 
-        /* Sticky Note Raksasa */
         .sticky-note {
             width: 85%;
-            max-width: 500px;
-            min-height: 450px;
-            padding: 50px 30px;
+            max-width: 480px;
+            min-height: 400px;
+            padding: 40px 30px;
             border-radius: 2px;
-            box-shadow: 15px 15px 30px rgba(0,0,0,0.05);
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.05);
             position: relative;
-            transition: 0.5s;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 5;
-            background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
-            background-size: 100% 30px; /* Garis Buku */
+            background-image: repeating-linear-gradient(transparent, transparent 30px, #ccc 30px, #ccc 31px);
         }
 
         .sticky-note::before {
             content: "";
             position: absolute;
-            top: -10px;
+            top: -15px;
             left: 50%;
-            transform: translateX(-50%) rotate(1deg);
-            width: 140px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(2px);
-            border: 1px solid rgba(255,255,255,0.5);
+            transform: translateX(-50%) rotate(-1deg);
+            width: 150px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(3px);
+            border: 1px solid rgba(255,255,255,0.4);
         }
 
         .page { display: none; }
@@ -168,90 +166,86 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
         }
 
-        .item-text { flex-grow: 1; margin: 0 15px; font-size: 16px; }
         .del-btn { background: none; border: none; cursor: pointer; opacity: 0.3; }
-        .del-btn:hover { opacity: 1; color: var(--terracotta); }
 
-        /* Watermark */
         .watermark {
-            margin-top: 50px;
-            font-size: 12px;
+            margin-top: 40px;
+            font-size: 11px;
             opacity: 0.6;
             letter-spacing: 2px;
-            font-family: 'Quicksand';
-            padding-bottom: 120px; /* Biar ngga ketutup pot */
-            z-index: 10;
+            text-align: center;
         }
 
         /* Modal */
         .modal {
             display: none; position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
             z-index: 3000; justify-content: center; align-items: center;
         }
         .modal-content {
             background: white; padding: 30px; border-radius: 30px;
             width: 80%; max-width: 320px;
         }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 15px; border: 1px solid #eee; }
-
-        .pinjam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 12px; border: 1px solid #eee; }
     </style>
 </head>
 <body>
 
-    <div class="vines-top"></div>
-
-    <div class="garden-bottom">
-        <div class="pot"></div>
-        <div class="pot" style="transform: scale(0.8);"></div>
-        <div class="pot"></div>
-        <div class="pot" style="transform: scale(0.9);"></div>
-        <div class="pot"></div>
+    <div class="hanging-garden">
+        <div class="hanging-plant"></div>
+        <div class="hanging-plant"></div>
+        <div class="hanging-plant"></div>
+        <div class="hanging-plant"></div>
+        <div class="hanging-plant"></div>
     </div>
 
-    <div class="tab-nav">
-        <div class="tab-item active" onclick="showPage('perpulangan', this, 'var(--note-perpulangan)')">🏠<span class="tooltip">Perpulangan</span></div>
-        <div class="tab-item" onclick="showPage('kiriman', this, 'var(--note-kiriman)')">📦<span class="tooltip">Kiriman</span></div>
-        <div class="tab-item" onclick="showPage('kunjungan', this, 'var(--note-kunjungan)')">✨<span class="tooltip">Kunjungan</span></div>
-        <div class="tab-item" onclick="showPage('oper', this, 'var(--note-oper)')">🔃<span class="tooltip">Oper Balik</span></div>
-        <div class="tab-item" onclick="showPage('pinjam', this, 'var(--note-pinjam)')">🤝<span class="tooltip">Pinjaman</span></div>
-    </div>
-
-    <button class="add-btn" onclick="openModal()">+ Tambah Barang</button>
-
-    <div class="sticky-note" id="mainNote" style="background-color: var(--note-perpulangan);">
-        <div id="perpulangan" class="page active"><h3 style="font-family:'Quicksand'">List Perpulangan</h3><div id="list-perpulangan"></div></div>
-        <div id="kiriman" class="page"><h3 style="font-family:'Quicksand'">Kiriman Minggu</h3><div id="list-kiriman"></div></div>
-        <div id="kunjungan" class="page"><h3 style="font-family:'Quicksand'">Sambangan Bulanan</h3><div id="list-kunjungan"></div></div>
-        <div id="oper" class="page"><h3 style="font-family:'Quicksand'">Oper Balik Rumah</h3><div id="list-oper"></div></div>
-        <div id="pinjam" class="page">
-            <h3 style="font-family:'Quicksand'">Amanah Pinjaman</h3>
-            <div class="pinjam-grid">
-                <div class="pinjam-col"><h4 style="font-size:10px">AKU PINJAM</h4><div id="list-aku-pinjam"></div></div>
-                <div class="pinjam-col"><h4 style="font-size:10px">DIPINJAM</h4><div id="list-dipinjam"></div></div>
-            </div>
+    <div class="bottom-garden">
+        <div class="pot-row">
+            🪴🌵🌿🍃🪴🌵🌿🍃🪴
         </div>
     </div>
 
-    <div class="watermark">Oemah Checklist by N4T3V_</div>
+    <div class="tab-nav">
+        <div class="tab-item active" onclick="showPage('perpulangan', this, 'var(--note-perpulangan)')">🏠</div>
+        <div class="tab-item" onclick="showPage('kiriman', this, 'var(--note-kiriman)')">📦</div>
+        <div class="tab-item" onclick="showPage('kunjungan', this, 'var(--note-kunjungan)')">✨</div>
+        <div class="tab-item" onclick="showPage('oper', this, 'var(--note-oper)')">🔃</div>
+        <div class="tab-item" onclick="showPage('pinjam', this, 'var(--note-pinjam)')">🤝</div>
+    </div>
+
+    <button class="add-btn" onclick="openModal()">+ Tambah</button>
+
+    <div class="sticky-note" id="mainNote" style="background-color: var(--note-perpulangan);">
+        <div id="perpulangan" class="page active"><h3 style="font-family:'Quicksand'">Perpulangan</h3><div id="list-perpulangan"></div></div>
+        <div id="kiriman" class="page"><h3 style="font-family:'Quicksand'">Kiriman Minggu</h3><div id="list-kiriman"></div></div>
+        <div id="kunjungan" class="page"><h3 style="font-family:'Quicksand'">Kunjungan Bulanan</h3><div id="list-kunjungan"></div></div>
+        <div id="oper" class="page"><h3 style="font-family:'Quicksand'">Oper Balik</h3><div id="list-oper"></div></div>
+        <div id="pinjam" class="page">
+            <h3 style="font-family:'Quicksand'">Pinjaman</h3>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <div><h4 style="font-size:10px">AKU PINJAM</h4><div id="list-aku-pinjam"></div></div>
+                <div><h4 style="font-size:10px">DIPINJAM</h4><div id="list-dipinjam"></div></div>
+            </div>
+        </div>
+        <div class="watermark">Oemah Checklist by N4T3V_</div>
+    </div>
 
     <div id="inputModal" class="modal">
         <div class="modal-content">
-            <h3 style="margin-top:0; font-family:'Quicksand'">Catatan Baru</h3>
-            <input type="text" id="itemName" placeholder="Ketik nama barang...">
+            <h3 style="margin-top:0; font-family:'Quicksand'">Baru</h3>
+            <input type="text" id="itemName" placeholder="Nama barang...">
             <select id="targetTab">
                 <option value="perpulangan">🏠 Perpulangan</option>
                 <option value="kiriman">📦 Kiriman</option>
                 <option value="kunjungan">✨ Kunjungan</option>
                 <option value="oper">🔃 Oper Balik</option>
                 <option value="aku-pinjam">🤝 Aku Pinjam</option>
-                <option value="dipinjam">👤 Dipinjam Teman</option>
+                <option value="dipinjam">👤 Dipinjam</option>
             </select>
             <button onclick="addItem()" style="width:100%; background:var(--sage); color:white; border:none; padding:12px; border-radius:15px; cursor:pointer;">Simpan</button>
             <button onclick="closeModal()" style="background:none; border:none; color:gray; width:100%; margin-top:10px; cursor:pointer;">Batal</button>
@@ -277,7 +271,7 @@
 
             const div = document.createElement('div');
             div.className = 'item-card';
-            div.innerHTML = `<input type="checkbox"> <span class="item-text">${name}</span> <button class="del-btn" onclick="this.parentElement.remove()">✖</button>`;
+            div.innerHTML = `<input type="checkbox"> <span style="flex-grow:1; margin:0 10px;">${name}</span> <button class="del-btn" onclick="this.parentElement.remove()">✖</button>`;
 
             document.getElementById('list-' + tab).appendChild(div);
             document.getElementById('itemName').value = '';
@@ -287,7 +281,7 @@
         setInterval(() => {
             const now = new Date();
             if (now.getDay() === 6 && now.getHours() === 9 && now.getMinutes() === 20) {
-                alert("⏰ Oemah Checklist: Sudah jam 09.20 hari Sabtu! Cek persiapanmu.");
+                alert("⏰ Oemah Checklist: Cek persiapanmu!");
             }
         }, 60000);
     </script>
