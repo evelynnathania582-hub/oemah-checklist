@@ -4,41 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oemah Checklist</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --sage: #9caf88;
-            --olive: #708238;
             --terracotta: #cc7e5c;
             --cream: #f9f7f2;
-            --glass: rgba(255, 255, 255, 0.7);
+            /* Warna Sticky Notes */
+            --note-perpulangan: #e8f3e8; /* Soft Green */
+            --note-kiriman: #fff9e6;      /* Butter Yellow */
+            --note-kunjungan: #ffece6;    /* Peach */
+            --note-oper: #e6f2ff;         /* Sky Blue */
+            --note-pinjam: #f2e6ff;       /* Lavender */
         }
 
         body {
             margin: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--cream);
-            background-image: url('https://www.transparenttextures.com/patterns/p6.png'); /* Efek kertas grainy */
+            background-image: url('https://www.transparenttextures.com/patterns/p6.png');
             color: #4a5d4a;
-            padding-top: 150px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
+            overflow-x: hidden;
+            padding-top: 130px;
         }
 
-        /* Navigasi Tab (Minimalis Ikon) */
+        /* Dekorasi Tanaman Aesthetic */
+        .plant-left {
+            position: fixed;
+            bottom: -20px;
+            left: -20px;
+            width: 150px;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.8;
+        }
+
+        .plant-right {
+            position: fixed;
+            top: -10px;
+            right: -20px;
+            width: 120px;
+            transform: rotate(180deg);
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.7;
+        }
+
+        /* Navigasi Tab Minimalis */
         .tab-nav {
             position: fixed;
             top: 15px;
-            background: var(--glass);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             display: flex;
-            justify-content: center;
-            padding: 10px;
-            gap: 12px;
+            padding: 8px;
+            gap: 10px;
             border-radius: 40px;
             border: 1px solid rgba(255, 255, 255, 0.4);
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -47,267 +72,194 @@
 
         .tab-item {
             position: relative;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 45px; height: 45px;
+            display: flex; align-items: center; justify-content: center;
             border-radius: 50%;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 22px;
-            background: rgba(255,255,255,0.3);
+            transition: 0.4s;
+            font-size: 20px;
         }
 
-        .tab-item.active {
-            background: var(--sage);
-            color: white;
-            transform: scale(1.1);
-        }
+        .tab-item.active { background: var(--sage); color: white; }
 
-        /* Tooltip (Muncul pas di-hover) */
         .tab-item .tooltip {
-            visibility: hidden;
-            background: #4a5d4a;
-            color: white;
-            text-align: center;
-            padding: 6px 12px;
-            border-radius: 8px;
-            position: absolute;
-            bottom: -45px;
-            font-size: 11px;
-            white-space: nowrap;
-            opacity: 0;
-            transition: 0.3s;
-            font-weight: 600;
+            visibility: hidden; opacity: 0;
+            background: #4a5d4a; color: white;
+            padding: 5px 12px; border-radius: 8px;
+            position: absolute; bottom: -45px;
+            font-size: 10px; transition: 0.3s;
         }
+        .tab-item:hover .tooltip { visibility: visible; opacity: 1; }
 
-        .tab-item:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* Tombol Terracotta Melayang Tengah Atas */
+        /* Tombol Terracotta Melayang */
         .add-btn {
             position: fixed;
             top: 85px;
-            background-color: var(--terracotta);
+            background: var(--terracotta);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
+            padding: 10px 25px;
+            border-radius: 20px 50px 20px 50px; /* Bentuk Organic */
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(204, 126, 92, 0.4);
+            box-shadow: 0 8px 20px rgba(204, 126, 92, 0.3);
             z-index: 999;
             cursor: pointer;
-            font-family: 'Quicksand', sans-serif;
+            font-family: 'Quicksand';
             transition: 0.3s;
         }
 
-        .add-btn:hover { transform: scale(1.05); }
-
-        /* Container Konten */
-        .container {
+        /* Sticky Note Utama */
+        .sticky-note {
             width: 90%;
-            max-width: 500px;
+            max-width: 450px;
+            min-height: 400px;
+            padding: 40px 30px;
+            border-radius: 5px;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.05);
+            position: relative;
+            transition: background-color 0.5s ease;
+            background-image: radial-gradient(#d1d1d1 1px, transparent 1px);
+            background-size: 20px 20px; /* Titik-titik grid */
         }
 
-        .page { display: none; text-align: center; animation: fadeIn 0.5s; }
+        /* Efek Selotip (Washi Tape) */
+        .sticky-note::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            width: 120px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .page { display: none; }
         .page.active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .item-card {
-            background: white;
-            margin-bottom: 12px;
-            padding: 18px;
-            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-            text-align: left;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
         }
 
-        /* Pinjaman Grid */
-        .pinjam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-        .pinjam-col { background: rgba(156, 175, 136, 0.1); padding: 15px; border-radius: 20px; min-height: 150px; }
-        .pinjam-col h4 { font-size: 12px; margin-top: 0; text-transform: uppercase; color: var(--olive); }
+        .item-text { flex-grow: 1; margin: 0 10px; font-weight: 400; font-size: 16px; }
 
-        /* Modal Form */
+        .del-btn { background: none; border: none; cursor: pointer; font-size: 14px; opacity: 0.3; }
+        .del-btn:hover { opacity: 1; color: var(--terracotta); }
+
+        /* Pop-up Modal */
         .modal {
-            display: none;
-            position: fixed;
+            display: none; position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4);
-            z-index: 2000;
-            justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.3); backdrop-filter: blur(5px);
+            z-index: 2000; justify-content: center; align-items: center;
         }
         .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 25px;
-            width: 85%;
-            max-width: 350px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            background: white; padding: 30px; border-radius: 20px;
+            width: 80%; max-width: 320px;
         }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid #eee; box-sizing: border-box; }
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 12px;
-            border: 1px solid #eee;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
+        /* Pinjaman Grid */
+        .pinjam-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .pinjam-col h4 { font-size: 12px; margin-top: 0; color: var(--olive); border-bottom: 1px solid var(--sage); }
 
-        .save-btn {
-            background: var(--sage);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
+        /* Watermark */
         .watermark {
-            margin-top: auto;
-            padding: 40px 0 20px 0;
-            font-size: 10px;
-            letter-spacing: 2px;
-            opacity: 0.4;
-            text-transform: uppercase;
-        }
-
-        /* Checkbox Estetik */
-        input[type="checkbox"] {
-            width: 20px; height: 20px; cursor: pointer; accent-color: var(--sage);
+            margin-top: 40px;
+            font-size: 11px;
+            opacity: 0.5;
+            letter-spacing: 1px;
+            font-family: 'Quicksand';
+            padding-bottom: 30px;
         }
     </style>
 </head>
 <body>
 
-    <button class="add-btn" onclick="openModal()">+ Tambah Barang</button>
+    <svg class="plant-left" viewBox="0 0 100 100" fill="var(--sage)"><path d="M10,90 Q30,40 80,20 Q60,60 10,90" /></svg>
+    <svg class="plant-right" viewBox="0 0 100 100" fill="var(--sage)"><path d="M10,90 Q30,40 80,20 Q60,60 10,90" /></svg>
 
     <div class="tab-nav">
-        <div class="tab-item active" onclick="showPage('perpulangan', this)">
-            🏠 <span class="tooltip">Perpulangan</span>
-        </div>
-        <div class="tab-item" onclick="showPage('kiriman', this)">
-            📦 <span class="tooltip">Kiriman Minggu</span>
-        </div>
-        <div class="tab-item" onclick="showPage('kunjungan', this)">
-            ✨ <span class="tooltip">Sambangan Bulanan</span>
-        </div>
-        <div class="tab-item" onclick="showPage('oper', this)">
-            🔃 <span class="tooltip">Oper Balik</span>
-        </div>
-        <div class="tab-item" onclick="showPage('pinjam', this)">
-            🤝 <span class="tooltip">Amanah Pinjaman</span>
-        </div>
+        <div class="tab-item active" onclick="showPage('perpulangan', this, 'var(--note-perpulangan)')">🏠<span class="tooltip">Perpulangan</span></div>
+        <div class="tab-item" onclick="showPage('kiriman', this, 'var(--note-kiriman)')">📦<span class="tooltip">Kiriman</span></div>
+        <div class="tab-item" onclick="showPage('kunjungan', this, 'var(--note-kunjungan)')">✨<span class="tooltip">Kunjungan</span></div>
+        <div class="tab-item" onclick="showPage('oper', this, 'var(--note-oper)')">🔃<span class="tooltip">Oper Balik</span></div>
+        <div class="tab-item" onclick="showPage('pinjam', this, 'var(--note-pinjam)')">🤝<span class="tooltip">Pinjaman</span></div>
     </div>
 
-    <div class="container">
-        <div id="perpulangan" class="page active">
-            <h2 style="font-family: 'Quicksand'; color: var(--olive);">Perpulangan</h2>
-            <div id="list-perpulangan"></div>
-        </div>
+    <button class="add-btn" onclick="openModal()">+ Barang Baru</button>
 
-        <div id="kiriman" class="page">
-            <h2 style="font-family: 'Quicksand'; color: var(--olive);">Kiriman Minggu</h2>
-            <div id="list-kiriman"></div>
-        </div>
-
-        <div id="kunjungan" class="page">
-            <h2 style="font-family: 'Quicksand'; color: var(--olive);">Sambangan Bulanan</h2>
-            <div id="list-kunjungan"></div>
-        </div>
-
-        <div id="oper" class="page">
-            <h2 style="font-family: 'Quicksand'; color: var(--olive);">Oper Balik</h2>
-            <div id="list-oper"></div>
-        </div>
-
+    <div class="sticky-note" id="mainNote" style="background-color: var(--note-perpulangan);">
+        <div id="perpulangan" class="page active"><h3 style="font-family:'Quicksand'">List Perpulangan</h3><div id="list-perpulangan"></div></div>
+        <div id="kiriman" class="page"><h3 style="font-family:'Quicksand'">Kiriman Minggu</h3><div id="list-kiriman"></div></div>
+        <div id="kunjungan" class="page"><h3 style="font-family:'Quicksand'">Sambangan Bulanan</h3><div id="list-kunjungan"></div></div>
+        <div id="oper" class="page"><h3 style="font-family:'Quicksand'">Oper Balik Rumah</h3><div id="list-oper"></div></div>
         <div id="pinjam" class="page">
-            <h2 style="font-family: 'Quicksand'; color: var(--olive);">Pinjaman</h2>
+            <h3 style="font-family:'Quicksand'">Amanah Pinjaman</h3>
             <div class="pinjam-grid">
-                <div class="pinjam-col">
-                    <h4>Aku Pinjam</h4>
-                    <div id="list-aku-pinjam"></div>
-                </div>
-                <div class="pinjam-col">
-                    <h4>Dipinjam</h4>
-                    <div id="list-dipinjam"></div>
-                </div>
+                <div class="pinjam-col"><h4>Aku Pinjam</h4><div id="list-aku-pinjam"></div></div>
+                <div class="pinjam-col"><h4>Dipinjam</h4><div id="list-dipinjam"></div></div>
             </div>
         </div>
     </div>
 
+    <div class="watermark">Oemah Checklist by N4T3V_</div>
+
     <div id="inputModal" class="modal">
         <div class="modal-content">
-            <h3 style="margin-top:0; font-family:'Quicksand'">Baru di List</h3>
-            <input type="text" id="itemName" placeholder="Tulis nama barang...">
+            <h3 style="margin-top:0; font-family:'Quicksand'">Tambah Catatan</h3>
+            <input type="text" id="itemName" placeholder="Nama barang...">
             <select id="targetTab">
                 <option value="perpulangan">🏠 Perpulangan</option>
-                <option value="kiriman">📦 Kiriman Minggu</option>
-                <option value="kunjungan">✨ Sambangan Bulanan</option>
+                <option value="kiriman">📦 Kiriman</option>
+                <option value="kunjungan">✨ Kunjungan</option>
                 <option value="oper">🔃 Oper Balik</option>
                 <option value="aku-pinjam">🤝 Aku Pinjam</option>
                 <option value="dipinjam">👤 Dipinjam Teman</option>
             </select>
-            <button class="save-btn" onclick="addItem()">Simpan Ke List</button>
-            <button onclick="closeModal()" style="background:none; border:none; color:gray; width:100%; margin-top:10px; cursor:pointer;">Nanti Saja</button>
+            <button onclick="addItem()" style="width:100%; background:var(--sage); color:white; border:none; padding:12px; border-radius:10px; cursor:pointer;">Simpan</button>
+            <button onclick="closeModal()" style="background:none; border:none; color:gray; width:100%; margin-top:10px; cursor:pointer;">Batal</button>
         </div>
     </div>
 
-    <div class="watermark">by N4T3V_</div>
-
     <script>
-        // Fungsi Navigasi
-        function showPage(pageId, el) {
+        function showPage(pageId, el, color) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
+            document.getElementById('mainNote').style.backgroundColor = color;
             el.classList.add('active');
         }
 
-        // Fungsi Modal
         function openModal() { document.getElementById('inputModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('inputModal').style.display = 'none'; }
 
-        // Fungsi Tambah Barang
         function addItem() {
             const name = document.getElementById('itemName').value;
             const tab = document.getElementById('targetTab').value;
-            if(!name) return alert("Isi dulu nama barangnya, ya!");
+            if(!name) return;
 
             const div = document.createElement('div');
             div.className = 'item-card';
-            div.innerHTML = `<span>${name}</span> <input type="checkbox">`;
+            div.innerHTML = `<input type="checkbox"> <span class="item-text">${name}</span> <button class="del-btn" onclick="this.parentElement.remove()">✖</button>`;
 
-            const targetId = 'list-' + tab;
-            document.getElementById(targetId).appendChild(div);
-
+            document.getElementById('list-' + tab).appendChild(div);
             document.getElementById('itemName').value = '';
             closeModal();
         }
 
-        // Alarm Sabtui 09.20
-        function checkAlarm() {
+        setInterval(() => {
             const now = new Date();
-            // 6 = Sabtu
             if (now.getDay() === 6 && now.getHours() === 9 && now.getMinutes() === 20) {
-                alert("⏰ Oemah Checklist: Sudah jam 09.20 hari Sabtu! Jangan lupa cek barang kiriman dan pengembalian ya.");
+                alert("⏰ Oemah Checklist: Cek list persiapanmu sekarang!");
             }
-        }
-        setInterval(checkAlarm, 60000); // Cek tiap menit
+        }, 60000);
     </script>
 </body>
 </html>
